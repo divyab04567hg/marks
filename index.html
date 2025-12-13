@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marks Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #43cea2, #185a9d);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            width: 320px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        h2 {
+            color: #185a9d;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            background: #185a9d;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0f3c66;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📊 Marks Predictor</h2>
+
+    <input type="number" id="hours" placeholder="Study Hours / Day (0–12)">
+    <input type="number" id="attendance" placeholder="Attendance (%)">
+    <input type="number" id="internal" placeholder="Internal Marks (0–30)">
+
+    <button onclick="predictMarks()">Predict</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function predictMarks() {
+        let hours = Number(document.getElementById("hours").value);
+        let attendance = Number(document.getElementById("attendance").value);
+        let internal = Number(document.getElementById("internal").value);
+
+        if (hours === 0 && attendance === 0 && internal === 0) {
+            document.getElementById("result").innerHTML = "Please enter valid inputs!";
+            return;
+        }
+
+        // Logic for prediction
+        let marks = 
+            (hours * 5) +        // Study hours impact
+            (attendance * 0.3) + // Attendance impact
+            (internal * 1.5);    // Internal marks impact
+
+        if (marks > 100) marks = 100;
+        marks = Math.round(marks);
+
+        let grade = "";
+
+        if (marks >= 90) grade = "A+ 🌟";
+        else if (marks >= 80) grade = "A";
+        else if (marks >= 70) grade = "B+";
+        else if (marks >= 60) grade = "B";
+        else if (marks >= 50) grade = "C";
+        else grade = "Needs Improvement";
+
+        document.getElementById("result").innerHTML =
+            `📘 Predicted Marks: <b>${marks}/100</b><br>🎓 Grade: <b>${grade}</b>`;
+    }
+</script>
+
+</body>
+</html>
